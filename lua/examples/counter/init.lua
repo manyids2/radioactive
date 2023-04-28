@@ -14,15 +14,15 @@ local M = {
 	class = "counter",
 	children = { boxA, boxB },
 	init = function()
-		boxA.init()
-		boxB.init()
+		boxA:init()
+		boxB:init()
 	end,
 	is_dirty = function()
-		return (boxA.is_dirty() and boxB.is_dirty())
+		return (boxA:is_dirty() and boxB:is_dirty())
 	end,
 	render = function()
-		boxA.render()
-		boxB.render()
+		boxA:render()
+		boxB:render()
 	end,
 }
 
