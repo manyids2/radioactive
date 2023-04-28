@@ -2,4 +2,4 @@
 require("radioactive.bootstrap")
 
 -- start taskwar
-require("radioactive").setup({ opts = { theme = "catppuccin-latte" } })
+require("radioactive").setup({ app = "examples.counter" })

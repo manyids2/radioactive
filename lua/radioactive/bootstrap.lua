@@ -79,6 +79,7 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
 opt.foldlevel = 99 -- Disable line wrap
+opt.cmdheight = 0 -- Disable command line at bottom
 
 if vim.fn.has("nvim-0.9.0") == 1 then
 	opt.splitkeep = "screen"

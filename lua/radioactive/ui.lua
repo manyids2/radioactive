@@ -1,30 +1,60 @@
+local api = vim.api
+local keys = require("radioactive.keys")
+
 local M = {}
 
 M.self = M
 M.config = {}
 M.state = {}
+M.default_config = {
+	app = "radioactive.basic",
+	theme = "catppuccin-latte",
+	keys = {
+		help = "<C-space>",
+		quit = "q",
+	},
+	bufopts = { filetype = "markdown", modifiable = false },
+}
 
-local keys = require("radioactive.keys")
-local api = vim.api
+function M.validate_config(config)
+	if config == nil then
+		config = M.default_config
+	end
+	vim.validate({ config = { config, "table" } })
+	config = vim.tbl_extend("keep", config, M.default_config)
+	return config
+end
+
+function M.set_lines(buffer, lines)
+	api.nvim_buf_set_option(buffer, "modifiable", true)
+	api.nvim_buf_set_lines(buffer, 0, -1, false, lines)
+	api.nvim_buf_set_option(buffer, "modifiable", false)
+end
+
+function M.set_buf_options(buffer, opts)
+	for key, value in pairs(opts) do
+		api.nvim_buf_set_option(buffer, key, value)
+	end
+end
 
 function M.render()
+	-- reset dirty based on children
+	for name, child in pairs(M.state.children) do
+		print(name, vim.inspect(child))
+	end
 	if M.state.dirty then
-		api.nvim_buf_set_option(M.state.buffer, "modifiable", true)
-		api.nvim_buf_set_lines(M.state.buffer, -1, -1, false, M.state.loading.lines)
-		api.nvim_buf_set_option(M.state.buffer, "modifiable", false)
-
+		-- set title in markdown
+		M.set_lines(M.state.buffer, { M.state.data.title })
 		api.nvim_win_set_buf(M.state.window, M.state.buffer)
-		api.nvim_win_set_cursor(M.state.window, { 2, 0 })
 		M.state.dirty = false
 	end
 end
 
 function M.init(config)
-	M.config = config
+	M.config = M.validate_config(config)
 
-	-- Extras
-	vim.cmd("colorscheme " .. config.opts.theme)
-	-- vim.cmd("ZenMode") -- messes up focus
+	-- Styling
+	vim.cmd("colorscheme " .. M.config.theme)
 
 	-- window, create new buffer
 	local window = api.nvim_get_current_win()
@@ -33,24 +63,24 @@ function M.init(config)
 		return
 	end
 
-	-- set options
-	api.nvim_buf_set_option(buffer, "filetype", "markdown")
-	api.nvim_buf_set_option(buffer, "modifiable", false)
+	-- initialize children
+	-- local children = M.init_child(config.child_module)
 
 	-- state
 	M.state = {
-		loading = { lines = { "# radioactive" } },
+		name = "root",
+		children = {},
 		buffer = buffer,
 		window = window,
-		open = false,
 		dirty = true,
+		data = { title = "# radioactive" },
 	}
 
-	-- keys
-	keys.set_keys(M.config.opts.keys, M.state)
+	-- set options, default to filetype markdown for title
+	M.set_buf_options(buffer, M.config.bufopts)
 
-	-- events
-	-- au.set_listeners(M.config.opts.listeners, M.state)
+	-- 'global' keys ( quit, help )
+	keys.set_default_keys(M.config.keys, M.state)
 
 	-- render
 	M.render()
