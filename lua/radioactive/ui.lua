@@ -16,12 +16,12 @@ M.default_config = {
 	bufopts = { filetype = "markdown", modifiable = false },
 }
 
-function M.validate_config(config)
+function M.validate_config(config, default_config)
 	if config == nil then
-		config = M.default_config
+		config = default_config
 	end
 	vim.validate({ config = { config, "table" } })
-	config = vim.tbl_extend("keep", config, M.default_config)
+	config = vim.tbl_extend("keep", config, default_config)
 	return config
 end
 
@@ -39,8 +39,10 @@ end
 
 function M.render()
 	-- reset dirty based on children
-	for name, child in pairs(M.state.children) do
-		print(name, vim.inspect(child))
+	for _, child in pairs(M.state.children) do
+		if child.is_dirty() then
+			child.render()
+		end
 	end
 	if M.state.dirty then
 		-- set title in markdown
@@ -50,9 +52,12 @@ function M.render()
 	end
 end
 
-function M.init(config)
-	M.config = M.validate_config(config)
+function M.setup(config)
+	M.config = M.validate_config(config, M.default_config)
+	return M
+end
 
+function M.init()
 	-- Styling
 	vim.cmd("colorscheme " .. M.config.theme)
 
@@ -63,15 +68,13 @@ function M.init(config)
 		return
 	end
 
-	-- initialize children
-	-- local children = M.init_child(config.child_module)
-
 	-- state
 	M.state = {
-		name = "root",
-		children = {},
+		id = "root",
+		class = "root",
 		buffer = buffer,
 		window = window,
+		children = {},
 		dirty = true,
 		data = { title = "# radioactive" },
 	}
@@ -80,7 +83,13 @@ function M.init(config)
 	M.set_buf_options(buffer, M.config.bufopts)
 
 	-- 'global' keys ( quit, help )
-	keys.set_default_keys(M.config.keys, M.state)
+	keys.set_global_keys(M.config.keys)
+
+	-- initialize children
+	M.state.children = { require(M.config.app) }
+	for _, child in pairs(M.state.children) do
+		child.init()
+	end
 
 	-- render
 	M.render()
