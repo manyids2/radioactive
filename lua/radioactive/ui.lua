@@ -122,7 +122,7 @@ function M.init()
 		children = {},
 		components = {},
 		dirty = true,
-		data = { title = "# radioactive" },
+		data = { title = "#  radioactive" },
 	}
 
 	-- set options, default to filetype markdown for title

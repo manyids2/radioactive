@@ -29,7 +29,7 @@ local default_config = {
 			{ "button" }, -- affects
 		},
 	},
-	rect = { col = 10, row = 5, width = 20, height = 5 },
+	rect = { col = 0.3, row = 0.3, width = 0.4, height = 0.4, zindex = 500 },
 }
 
 function M.setup(sconfig)
@@ -52,6 +52,7 @@ function M.setup(sconfig)
 		id = vconfig.id,
 		class = vconfig.class,
 		keys = vconfig.keys,
+    data = vconfig.data,
 		state = state,
 		init = M.init,
 		is_dirty = M.is_dirty,
@@ -74,6 +75,8 @@ function M.init(self)
 	end
 	self.state.buffer = wb.buffer
 	self.state.window = wb.window
+
+	api.nvim_win_set_option(self.state.window, "winhighlight", "Normal:RadioactiveButton")
 
 	-- attach event listener
 	for desc, value in pairs(self.config.keys) do

@@ -8,7 +8,7 @@ local default_config = {
 	id = "div",
 	class = "div",
 	text = "div",
-	rect = { col = 10, row = 5, width = 20, height = 5 },
+	rect = { col = .1, row = .1, width = .8, height = .8 },
 }
 
 function M.setup(sconfig)
@@ -30,6 +30,7 @@ function M.setup(sconfig)
 		config = vconfig,
     id = vconfig.id,
     class = vconfig.class,
+    data = vconfig.data,
 		state = state,
 		init = M.init,
 		is_dirty = M.is_dirty,
