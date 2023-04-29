@@ -45,11 +45,20 @@ function M.set_buf_options(buffer, opts)
 	end
 end
 
+function M.get_component(id)
+	for _, c in pairs(M.state.components) do
+		if c.id == id then
+      return c
+		end
+	end
+  return nil
+end
+
 function M.render()
 	-- reset dirty based on children
 	for _, child in pairs(M.state.children) do
-		if child.is_dirty() then
-			child.render()
+		if child:is_dirty() then
+			child:render()
 		end
 	end
 	if M.state.dirty then
@@ -83,6 +92,7 @@ function M.init()
 		buffer = buffer,
 		window = window,
 		children = {},
+		components = {},
 		dirty = true,
 		data = { title = "# radioactive" },
 	}
@@ -93,10 +103,12 @@ function M.init()
 	-- 'global' keys ( quit, help )
 	keys.set_global_keys(M.config.keys)
 
-	-- initialize children
-	M.state.children = { require(M.config.app) }
+	-- initialize app
+	M.app = require(M.config.app)
+	M.state.children = { M.app }
+	M.state.components = { M.app }
 	for _, child in pairs(M.state.children) do
-		child.init()
+		child:init()
 	end
 
 	-- render
