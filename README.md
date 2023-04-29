@@ -5,6 +5,10 @@ Reactive components using neovim and treesitter.
 The goal is to emulate **browser + html + javascript**
 with **neovim + html? + lua** for terminal apps.
 
+The current repo is a proof of concept to create
+a reactive framework that works with composable
+and reusable components.
+
 Best part? too many amazing free themes:
 
 <div style="display: flex; height: 1024px; flex-direction: row; flex-wrap: wrap;">
