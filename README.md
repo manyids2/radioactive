@@ -7,7 +7,7 @@ with **neovim + html? + lua** for terminal apps.
 
 Best part? too many amazing free themes:
 
-<div style="display: flex; height: 1024; flex-wrap: wrap;">
+<div style="display: flex; height: 1024px; flex-wrap: wrap;">
   <img src="./assets/catppuccin-latte.png">
   <img src="./assets/moonfly-dark.png">
   <img src="./assets/nightfly-dark.png">
