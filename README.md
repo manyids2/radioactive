@@ -33,6 +33,32 @@ export NVIM_APPNAME="$APPNAME"
 nvim
 ```
 
+## Usage
+
+Edit `init.lua` already available at "$XDG_CONFIG_HOME/$APPNAME/init.lua"
+
+```lua
+-- bootstrap lazy.nvim
+require("radioactive.bootstrap")
+
+-- start app
+local ui = require("radioactive.ui")
+ui.setup({ app = "examples.counter" })
+ui.init()
+```
+
+Start the app from `bash`:
+```bash
+export NVIM_APPNAME=radioactive
+nvim
+```
+
+Start the app from `fish`:
+```bash
+set -x NVIM_APPNAME=radioactive
+nvim
+```
+
 ## Demo
 
 - counter -> Frame, Label, Button
