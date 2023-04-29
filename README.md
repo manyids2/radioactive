@@ -11,6 +11,26 @@ and reusable components.
 
 Some kind of plan here: [docs](https://github.com/manyids2/radioactive/blob/main/doc/radioactive.txt)
 
+The motivation is:
+  - Neovim is cross-platform
+  - consistent 'native ui'
+  - already looks good out of the box
+  - easy access to features, themes through plugins
+  - now supports `NVIM_APPNAME`, allowing for standalone apps
+  - startup is blazing fast 🔥
+  - easy way to share custom widgets, simply using `lazy.vim`
+  - app elements like div, navbar, tabs, toasts, etc. already available
+  - package management is automatic with `lazy.vim`
+  - already has searchable DOM using treesitter
+    - so technically, possible to render HTML to a 'Neovim GUI'
+
+The main challenges are:
+  - Support for  `lua` ( e.g. libs for json, yaml, sql, etc. )
+  - Implementation of DOM using treesitter maybe in shadow buffer
+  - Layout engine, supporting resize
+  - State management
+  - Style using highlights
+
 Best part? too many amazing free themes:
 
 <div style="display: flex; height: 1024px; flex-direction: row; flex-wrap: wrap;">
