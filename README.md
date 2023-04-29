@@ -18,9 +18,9 @@ The motivation is:
   - easy access to features, themes through plugins
   - now supports `NVIM_APPNAME`, allowing for standalone apps
   - startup is blazing fast 🔥
-  - easy way to share custom widgets, simply using `lazy.vim`
+  - easy way to share custom widgets, simply using `lazy.nvim`
   - app elements like div, navbar, tabs, toasts, etc. already available
-  - package management is automatic with `lazy.vim`
+  - package management is automatic with `lazy.nvim`
   - already has searchable DOM using treesitter
     - so technically, possible to render HTML to a 'Neovim GUI'
 
