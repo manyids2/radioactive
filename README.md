@@ -5,17 +5,15 @@ Reactive components using neovim and treesitter.
 The goal is to emulate **browser + html + javascript**
 with **neovim + html? + lua** for terminal apps.
 
-
 Best part? too many amazing free themes:
 
-<img src="./assets/catppuccin-latte.png"  width="100" height="100">
-
-![moonfly-dark](./assets/moonfly-dark.png)
-![nightfly-dark](./assets/nightfly-dark.png)
-![rosebones-dark](./assets/rosebones-dark.png)
-![rosebones-light](./assets/rosebones-light.png)
-![tokyonight-dark](./assets/tokyonight-dark.png)
-![tokyonight-light](./assets/tokyonight-light.png)
+<img src="./assets/catppuccin-latte.png"  width="256" height="256">
+<img src="./assets/moonfly-dark.png"  width="256" height="256">
+<img src="./assets/nightfly-dark.png"  width="256" height="256">
+<img src="./assets/rosebones-dark.png"  width="256" height="256">
+<img src="./assets/rosebones-light.png"  width="256" height="256">
+<img src="./assets/tokyonight-dark.png"  width="256" height="256">
+<img src="./assets/tokyonight-light.png"  width="256" height="256">
 
 ## Installation
 
@@ -97,4 +95,3 @@ Widget specification
 App specification
 
 - `counter.lua`
-
