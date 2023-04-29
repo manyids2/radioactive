@@ -3,17 +3,19 @@ local div = require("radioactive.widgets.div")
 local button = require("radioactive.widgets.button")
 
 local function increment(components)
-	local count = components.count_label.data.count
+	local c = components.count_label
+	local count = c.data.count
 	count = count + 1
-	components.count_label.data.count = count
-	components.count_label.state.text = { tostring(count) }
+	c.data.count = count
+	c.state.text = { tostring(count) }
 end
 
 local function decrement(components)
-	local count = components.count_label.data.count
-	count = count + 1
-	components.count_label.data.count = count
-	components.count_label.state.text = { tostring(count) }
+	local c = components.count_label
+	local count = c.data.count
+	count = count - 1
+	c.data.count = count
+	c.state.text = { tostring(count) }
 end
 
 -- Need to setup children before init
