@@ -9,6 +9,8 @@ The current repo is a proof of concept to create
 a reactive framework that works with composable
 and reusable components.
 
+Some kind of plan here: [docs](https://github.com/manyids2/radioactive/blob/main/doc/radioactive.txt)
+
 Best part? too many amazing free themes:
 
 <div style="display: flex; height: 1024px; flex-direction: row; flex-wrap: wrap;">
