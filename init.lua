@@ -1,5 +1,7 @@
 -- bootstrap lazy.nvim
 require("radioactive.bootstrap")
 
--- start taskwar
-require("radioactive").setup({ app = "examples.counter" })
+-- start app
+local ui = require("radioactive.ui")
+ui.setup({ app = "examples.counter" })
+ui.init()

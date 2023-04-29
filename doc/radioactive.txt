@@ -46,12 +46,12 @@ for terminal apps.
 
 The goal is to build standalone apps, so our code structure is same as neovim
 config file structures, and uses your `init` file. Clone the repo to some
-folder in `$XDG_CONFIG_HOME/appname`. The `appname` is used as env variables
+folder in `$XDG_CONFIG_HOME/radioactive`. The `radioactive` is used as env variables
 to make our app standalone.
 
 The directory structure now looks like this: >
 
-     $XDG_CONFIG_HOME/appname
+     $XDG_CONFIG_HOME/radioactive
     ├──  README.md
     ├──  init.lua
     ├──  lua
@@ -60,7 +60,6 @@ The directory structure now looks like this: >
     │  │  └──  counter.lua
     │  └──  radioactive
     │     ├──  bootstrap.lua
-    │     ├──  init.lua
     │     ├──  ui.lua
     │     ├──  keys.lua
     │     ├──  au.lua
@@ -88,7 +87,33 @@ The simplest example of an app looks like this, where the widget
       state = { count = 0 },
     }
 
-A more involved example ( the usual counter ) looks like this: >
+
+To switch between several apps, ( maybe debug version, etc. ), set the
+name in `init.lua`.
+
+In `init.lua`: >
+
+    -- bootstrap lazy.nvim
+    require("radioactive.bootstrap")
+
+    -- start app
+    local ui = require("radioactive.ui")
+    ui.setup({ app = "examples.counter" })
+    ui.init()
+
+To start the app, just run nvim after setting appropriate appname.
+
+From `bash`: >
+
+    export NVIM_APPNAME=radioactive
+    nvim
+
+From `fish`: >
+
+    set -x NVIM_APPNAME=radioactive
+    nvim
+
+The above example ( the usual counter ) looks like this: >
 
     local button = require("radioactive.widgets.button")
 
@@ -136,29 +161,6 @@ A more involved example ( the usual counter ) looks like this: >
       state = { count = 0 },
     }
 
-
-To switch between several apps, ( maybe debug version, etc. ), set the
-name in `init.lua`.
-
-In `init.lua`: >
-
-    -- bootstrap lazy.nvim
-    require("radioactive.bootstrap")
-
-    -- start app
-    require("radioactive").setup({ app = "examples.counter" })
-
-To start the app,
-
-From `bash`: >
-
-    export NVIM_APPNAME=appname
-    nvim
-
-From `fish`: >
-
-    set -x NVIM_APPNAME=appname
-    nvim
 
 
 ==============================================================================

@@ -15,10 +15,10 @@ vim.opt.rtp:prepend(lazypath)
 -- install plugins
 require("lazy").setup({
 	-- Usability
-	"folke/which-key.nvim",
+	-- "folke/which-key.nvim",
   -- treesitter
-  "nvim-treesitter/playground",
 	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
+  "nvim-treesitter/playground",
   -- telescope
 	{
 		"nvim-telescope/telescope.nvim",
