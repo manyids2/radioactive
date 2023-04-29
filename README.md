@@ -2,6 +2,10 @@
 
 Reactive components using neovim and treesitter.
 
+Example apps:
+
+![counter](./counter.png)
+
 ## Demo
 
 - counter -> Frame, Label, Button
