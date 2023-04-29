@@ -8,7 +8,8 @@ with **neovim + html? + lua** for terminal apps.
 
 Best part? too many amazing free themes:
 
-![catppuccin-latte](./assets/catppuccin-latte.png)
+<img src="./assets/catppuccin-latte.png"  width="100" height="100">
+
 ![moonfly-dark](./assets/moonfly-dark.png)
 ![nightfly-dark](./assets/nightfly-dark.png)
 ![rosebones-dark](./assets/rosebones-dark.png)
