@@ -15,6 +15,7 @@ Best part? too many amazing free themes:
   <img src="./assets/rosebones-light.png" width=100 height=100>
   <img src="./assets/tokyonight-dark.png" width=100 height=100>
   <img src="./assets/tokyonight-light.png" width=100 height=100>
+  <img src="./assets/habamax-dark.png" width=100 height=100>
 <div>
 
 ## Installation
