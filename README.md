@@ -7,7 +7,7 @@ Reactive components using neovim and treesitter.
 - counter -> Frame, Label, Button
 - taskwarrior -> Frame, Buttons, Tabs, Inputs, Filters, Search
 
-## Usual reactivity protocol
+## Initial roadmap
 
 - `self`
   - reference to module itself
@@ -42,3 +42,25 @@ Reactive components using neovim and treesitter.
   - child B
 
 on each `update`, check dirty flag of full tree.
+
+## Rev 1.0
+
+Core Logic and constraints
+
+- `init.lua`
+
+- `ui.lua`
+
+- `layout.lua`
+
+- `keys.lua`
+
+- `au.lua`
+
+Widget specification
+
+- `button.lua`
+
+App specification
+
+- `counter.lua`

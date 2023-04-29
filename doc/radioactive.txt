@@ -1,38 +1,177 @@
 *radioactive.txt*  Reactive components using neovim and treesitter.
 
 ==============================================================================
-CONTENTS                                          *radioactive-contents*
+CONTENTS                                                *radioactive-contents*
 
     1. Introduction ......................... |radioactive-introduction|
-    2. Setup ................................ |radioactive-setup|
-    3. Commands ............................. |radioactive-commands|
-    4. API .................................. |radioactive-api|
+    2. Setup ....................................... |radioactive-setup|
+    3. Core logic and constraints ................... |radioactive-core|
+    4. UI constraints ................................. |radioactive-ui|
+    5. Widget constraints ......................... |radioactive-widget|
+    6. App constraints ............................... |radioactive-app|
+    7. API ........................................... |radioactive-api|
 
 ==============================================================================
-1. INTRODUCTION                               *radioactive-introduction*
+1. INTRODUCTION                                     *radioactive-introduction*
 
-radioactive uses the fact that Neovim is cross-platform, and has the same
-native ui, with access to features through plugins, to create reactive uis.
+*radioactive* uses Neovim to create reactive uis.
+
+The motivation is:
+  - Neovim is cross-platform
+  - consistent 'native ui'
+  - already looks good out of the box
+  - easy access to features, themes through plugins
+  - now supports `NVIM_APPNAME`, allowing for standalone apps
+  - startup is blazing fast 🔥
+  - easy way to share custom widgets, simply using `lazy.vim`
+  - app elements like div, navbar, tabs, toasts, etc. already available
+  - package management is automatic with `lazy.vim`
+  - already has searchable DOM using treesitter
+    - so technically, possible to render HTML to a 'Neovim GUI'
+
+The main challenges are:
+  - Adoption of  `lua` ( e.g. libs for json, yaml, sql, etc. )
+  - Implementation of DOM using treesitter maybe in shadow buffer
+  - Layout engine, supporting resize
+  - State management, obviously
+  - Style using highlights
+  - async
+  - loop to check dirty instead?
+
+The goal is to replace `browser + html + javascript` with `neovim + html? + lua`
+for terminal apps.
 
 ==============================================================================
-2. SETUP                                             *radioactive-setup*
+2. SETUP                                                   *radioactive-setup*
 
-Make sure to add to call the setup function with the proper configuration on
-your `init` file.
+The goal is to build standalone apps, so our code structure is same as neovim
+config file structures, and uses your `init` file. Clone the repo to some
+folder in `$XDG_CONFIG_HOME/appname`. The `appname` is used as env variables
+to make our app standalone.
+
+The directory structure now looks like this: >
+
+     $XDG_CONFIG_HOME/appname
+    ├──  README.md
+    ├──  init.lua
+    ├──  lua
+    │  ├──  examples
+    │  │  ├──  app_shell.lua
+    │  │  └──  counter.lua
+    │  └──  radioactive
+    │     ├──  bootstrap.lua
+    │     ├──  init.lua
+    │     ├──  ui.lua
+    │     ├──  keys.lua
+    │     ├──  au.lua
+    │     ├──  layout.lua
+    │     └──  widgets
+    ├──  doc
+    │  └──  radioactive.txt
+    └──  tests
+
+
+The simplest example of an app looks like this, where the widget
+`state` stores `count`, initialized with `data` ( props? ): >
+
+    -- importing components
+    local button = require("radioactive.widgets.button")
+
+    -- setting up components with props ( use keys, au for listeners )
+    local buttons = button.setup({ id = "buttons", data = { count = 0 }, })
+
+    -- 'DOM' using children, id
+    return {
+      id = "counter",
+      class = "counter",
+      children = { buttons },
+      state = { count = 0 },
+    }
+
+A more involved example ( the usual counter ) looks like this: >
+
+    local button = require("radioactive.widgets.button")
+
+    local buttons_id = "buttons"
+    local buttons = button.setup({
+      id = buttons_id,
+      data = { count = 0 },
+      rect = { col = 0.1, row = 0.3, width = 0.8, height = 0.4, zindex = 500 },
+      style = { align_vertical = "center", align_horizontal = "center" },
+      format_lines = function(self)
+      self.state.text = {
+        "█   j   😸   k   █",
+        "",
+        string.format("%3s", self.data.count),
+        "",
+        "" .. string.rep("██", math.abs(math.ceil(self.data.count))) .. "",
+      }
+      end,
+      keys = {
+        increment = {
+          "n",
+          "j",
+          function(components)
+            local c = components.buttons
+            c.data.count = math.min(10, c.data.count + 1)
+          end,
+          { buttons_id },
+        },
+        decrement = {
+          "n",
+          "k",
+          function(components)
+            local c = components.buttons
+            c.data.count = math.max(-10, c.data.count - 1)
+          end,
+          { buttons_id },
+        },
+      },
+    })
+
+    return {
+      id = "counter",
+      class = "counter",
+      children = { buttons },
+      state = { count = 0 },
+    }
+
+
+To switch between several apps, ( maybe debug version, etc. ), set the
+name in `init.lua`.
 
 In `init.lua`: >
 
-    require('radioactive').setup { opts = { theme = "catppuccin-latte" } }
+    -- bootstrap lazy.nvim
+    require("radioactive.bootstrap")
+
+    -- start app
+    require("radioactive").setup({ app = "examples.counter" })
+
+To start the app,
+
+From `bash`: >
+
+    export NVIM_APPNAME=appname
+    nvim
+
+From `fish`: >
+
+    set -x NVIM_APPNAME=appname
+    nvim
+
 
 ==============================================================================
-3. COMMANDS                                             *radioactive-commands*
-
-:Radioactive                                                     *Radioactive*
-
-Shows a generic greet message.
+3. Core logic and constraints                                *radioactive-core*
 
 ==============================================================================
-4. API                                                       *radioactive-api*
+4. Widget constraints                                      *radioactive-widget*
+
+==============================================================================
+5. App constraints                                            *radioactive-app*
+
+==============================================================================
+6. API                                                        *radioactive-api*
 
 
 radioactive.setup({config})                              *radioactive.setup()*
