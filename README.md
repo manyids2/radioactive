@@ -8,13 +8,13 @@ with **neovim + html? + lua** for terminal apps.
 Best part? too many amazing free themes:
 
 <div style="display: flex; height: 1024px; flex-direction: row; flex-wrap: wrap;">
-  <img src="./assets/catppuccin-latte.png">
-  <img src="./assets/moonfly-dark.png">
-  <img src="./assets/nightfly-dark.png">
-  <img src="./assets/rosebones-dark.png">
-  <img src="./assets/rosebones-light.png">
-  <img src="./assets/tokyonight-dark.png">
-  <img src="./assets/tokyonight-light.png">
+  <img src="./assets/catppuccin-latte.png" width=100 height=100>
+  <img src="./assets/moonfly-dark.png" width=100 height=100>
+  <img src="./assets/nightfly-dark.png" width=100 height=100>
+  <img src="./assets/rosebones-dark.png" width=100 height=100>
+  <img src="./assets/rosebones-light.png" width=100 height=100>
+  <img src="./assets/tokyonight-dark.png" width=100 height=100>
+  <img src="./assets/tokyonight-light.png" width=100 height=100>
 <div>
 
 ## Installation
