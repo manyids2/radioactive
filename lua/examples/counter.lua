@@ -3,28 +3,34 @@ local button = require("radioactive.widgets.button")
 local buttons_id = "buttons"
 local buttons = button.setup({
 	id = buttons_id,
-	data = { count = 1 },
-	rect = { col = 0.3, row = 0.4, width = 0.4, height = 3, zindex = 500 },
+	data = { count = 0 },
+	rect = { col = 0.1, row = 0.3, width = 0.8, height = 0.4, zindex = 500 },
 	style = { align_vertical = "center", align_horizontal = "center" },
 	format_lines = function(self)
-		self.state.text = { string.format("██    😸 %3s    ██", self.data.count) }
+		self.state.text = {
+			"█   j   😸   k   █",
+			"",
+			string.format("%3s", self.data.count),
+			"",
+			"" .. string.rep("██", math.abs(math.ceil(self.data.count))) .. "",
+		}
 	end,
 	keys = {
 		increment = {
 			"n",
-			"<up>",
+			"j",
 			function(components)
 				local c = components.buttons
-				c.data.count = c.data.count + 1
+				c.data.count = math.min(10, c.data.count + 1)
 			end,
 			{ buttons_id },
 		},
 		decrement = {
 			"n",
-			"<down>",
+			"k",
 			function(components)
 				local c = components.buttons
-				c.data.count = c.data.count - 1
+				c.data.count = math.max(-10, c.data.count - 1)
 			end,
 			{ buttons_id },
 		},

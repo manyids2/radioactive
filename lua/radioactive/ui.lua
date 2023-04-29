@@ -1,4 +1,5 @@
 local api = vim.api
+local layout = require("radioactive.layout")
 local keys = require("radioactive.keys")
 
 local M = {}
@@ -79,23 +80,63 @@ function M.render_children(self)
 	end
 end
 
-function M.re_render(components)
+function M.render_only(components)
 	for _, c in pairs(components) do
 		c.state.dirty = true
 		c:render()
 	end
 end
 
-function M.render()
-	-- reset dirty based on children
-	for _, child in pairs(M.state.children) do
-		if child:is_dirty() then
-			child:render()
-		end
+function M.apply_style(lines, rect, style)
+	-- assuming style is center for now
+	local lheight = vim.tbl_count(lines)
+	local wwidth = rect.width
+	local wheight = rect.height
+
+	-- get top padding
+	local tpad = math.ceil((wheight - lheight) / 2)
+	local slines = {}
+	for _ = 1, tpad, 1 do
+		table.insert(slines, "")
 	end
+
+	-- get left and right padding
+	for _, line in pairs(lines) do
+		local lwidth = vim.api.nvim_strwidth(line)
+		local lpad = math.ceil((wwidth - lwidth) / 2)
+		local rpad = wwidth - lwidth - lpad
+		local newline = string.rep(" ", lpad) .. line .. string.rep(" ", rpad)
+		table.insert(slines, newline)
+	end
+
+	-- get bottom padding
+	local bpad = wheight - lheight - tpad
+	for _ = 1, bpad, 1 do
+		table.insert(slines, "")
+	end
+	return slines
+end
+
+function M.format_lines()
+	local size = layout.get_width_height()
+	local wheight = size.height
+	local lines = { M.state.data.title }
+	for _ = 1, wheight - 2, 1 do
+		table.insert(lines, "")
+	end
+	table.insert(lines, M.state.data.footer)
+	M.state.text = lines
+end
+
+function M.render()
+	for _, child in pairs(M.state.children) do
+		child:render()
+	end
+
+	-- background
 	if M.state.dirty then
-		-- set title in markdown
-		M.set_lines(M.state.buffer, { M.state.data.title })
+		M.format_lines()
+		M.set_lines(M.state.buffer, M.state.text)
 		api.nvim_win_set_buf(M.state.window, M.state.buffer)
 		M.state.dirty = false
 	end
@@ -126,7 +167,7 @@ function M.init()
 		children = {},
 		components = {},
 		dirty = true,
-		data = { title = "#  radioactive" },
+		data = { title = "#  radioactive", footer = " <tab> to focus" },
 	}
 
 	-- set options, default to filetype markdown for title
