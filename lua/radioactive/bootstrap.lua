@@ -16,10 +16,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	-- Usability
 	-- "folke/which-key.nvim",
-  -- treesitter
+	-- treesitter
 	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
-  "nvim-treesitter/playground",
-  -- telescope
+	"nvim-treesitter/playground",
+	-- telescope
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.1",
@@ -29,6 +29,11 @@ require("lazy").setup({
 	"godlygeek/tabular",
 	"preservim/vim-markdown",
 	{ "catppuccin/nvim", name = "catppuccin" },
+	{ "folke/tokyonight.nvim" },
+	{ "mcchrish/zenbones.nvim" },
+	{ "bluz71/vim-moonfly-colors" },
+	{ "bluz71/vim-nightfly-colors" },
+	{ "rktjmp/lush.nvim" },
 })
 
 -- options

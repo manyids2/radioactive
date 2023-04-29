@@ -6,13 +6,37 @@ The goal is to emulate **browser + html + javascript**
 with **neovim + html? + lua** for terminal apps.
 
 
-Example apps:
+Best part? too many amazing free themes:
 
-![counter](./counter.png)
+![catppuccin-latte](./assets/catppuccin-latte.png)
+![moonfly-dark](./assets/moonfly-dark.png)
+![nightfly-dark](./assets/nightfly-dark.png)
+![rosebones-dark](./assets/rosebones-dark.png)
+![rosebones-light](./assets/rosebones-light.png)
+![tokyonight-dark](./assets/tokyonight-dark.png)
+![tokyonight-light](./assets/tokyonight-light.png)
+
+## Installation
+
+```bash
+# Decide place to put this
+APPNAME=nvim-apps/radioactive
+
+# Clone the repo
+git clone https://github.com/manyids2/radioactive "$XDG_CONFIG_HOME/$APPNAME"
+
+# Check the demo
+cd "$XDG_CONFIG_HOME/$APPNAME"
+export NVIM_APPNAME="$APPNAME"
+nvim
+```
 
 ## Demo
 
 - counter -> Frame, Label, Button
+
+![counter](./assets/counter.png)
+
 - taskwarrior -> Frame, Buttons, Tabs, Inputs, Filters, Search
 
 ## Initial roadmap
