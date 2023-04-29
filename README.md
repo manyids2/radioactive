@@ -4,8 +4,8 @@ Reactive components using neovim and treesitter.
 
 ## Demo
 
-- Counter -> Frame, Label, Button
-- Taskwarrior -> Frame, Buttons, Tabs, Inputs, Filters, Search
+- counter -> Frame, Label, Button
+- taskwarrior -> Frame, Buttons, Tabs, Inputs, Filters, Search
 
 ## Usual reactivity protocol
 
