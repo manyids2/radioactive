@@ -1,56 +1,39 @@
-local ui = require("radioactive.ui")
-local div = require("radioactive.widgets.div")
 local button = require("radioactive.widgets.button")
 
-local function increment(components)
-	local c = components.count_label
-	local count = c.data.count
-	count = count + 1
-	c.data.count = count
-	c.state.text = { tostring(count) }
-end
-
-local function decrement(components)
-	local c = components.count_label
-	local count = c.data.count
-	count = count - 1
-	c.data.count = count
-	c.state.text = { tostring(count) }
-end
-
--- Need to setup children before init
-local count_label = div.setup({
-	id = "count_label",
-	text = { "1" },
-	data = { count = 1 },
-})
-
+local buttons_id = "buttons"
 local buttons = button.setup({
-	id = "buttons",
-	text = { "", "    +       ", "", "    -       " },
+	id = buttons_id,
+	data = { count = 1 },
+	rect = { col = 0.3, row = 0.4, width = 0.4, height = 3, zindex = 500 },
+	style = { align_vertical = "center", align_horizontal = "center" },
+	format_lines = function(self)
+		self.state.text = { string.format("██    😸 %3s    ██", self.data.count) }
+	end,
 	keys = {
 		increment = {
 			"n",
 			"<up>",
-			increment,
-			{ "count_label" },
+			function(components)
+				local c = components.buttons
+				c.data.count = c.data.count + 1
+			end,
+			{ buttons_id },
 		},
 		decrement = {
 			"n",
 			"<down>",
-			decrement,
-			{ "count_label" },
+			function(components)
+				local c = components.buttons
+				c.data.count = c.data.count - 1
+			end,
+			{ buttons_id },
 		},
 	},
-	rect = { col = 0.4, row = 0.5, width = 13, height = 5, zindex = 500 },
 })
 
 return {
 	id = "counter",
 	class = "counter",
-	children = { count_label, buttons },
+	children = { buttons },
 	state = { count = 0 },
-	init = ui.init_children,
-	is_dirty = ui.is_dirty_children,
-	render = ui.render_children,
 }

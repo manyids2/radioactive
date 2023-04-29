@@ -14,6 +14,9 @@ M.default_config = {
 		quit = "q",
 	},
 	bufopts = { filetype = "markdown", modifiable = false },
+	init = M.init_children,
+	is_dirty = M.is_dirty_children,
+	render = M.render_children,
 }
 
 function M.shallow_copy(t)
@@ -30,6 +33,7 @@ function M.validate_config(config, default_config)
 	end
 	vim.validate({ config = { config, "table" } })
 	config = vim.tbl_extend("keep", config, default_config)
+
 	return M.shallow_copy(config)
 end
 
@@ -133,6 +137,13 @@ function M.init()
 
 	-- initialize app
 	M.app = require(M.config.app)
+
+	for _, method in ipairs({ "init", "is_dirty", "render" }) do
+		if M.app[method] == nil then
+			M.app[method] = M[method .. "_children"]
+		end
+	end
+
 	M.state.children = { M.app }
 	M.state.components = { M.app }
 	for _, child in pairs(M.state.children) do

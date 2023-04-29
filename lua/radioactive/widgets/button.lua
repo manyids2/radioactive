@@ -30,6 +30,7 @@ local default_config = {
 		},
 	},
 	rect = { col = 0.3, row = 0.3, width = 0.4, height = 0.4, zindex = 500 },
+	bufopts = { filetype = "markdown" },
 }
 
 function M.setup(sconfig)
@@ -47,17 +48,24 @@ function M.setup(sconfig)
 		dirty = true,
 	}
 
+	for _, method in ipairs({ "init", "is_dirty", "render", "destroy", "format_lines" }) do
+		if config[method] == nil then
+			config[method] = M[method]
+		end
+	end
+
 	local button = {
-		config = vconfig,
-		id = vconfig.id,
-		class = vconfig.class,
-		keys = vconfig.keys,
-    data = vconfig.data,
+		config = config,
+		id = config.id,
+		class = config.class,
+		keys = config.keys,
+		data = config.data,
 		state = state,
-		init = M.init,
-		is_dirty = M.is_dirty,
-		render = M.render,
-		destroy = M.destroy,
+		init = config.init,
+		is_dirty = config.is_dirty,
+		render = config.render,
+		destroy = config.destroy,
+		format_lines = config.format_lines,
 	}
 
 	return button
@@ -76,7 +84,7 @@ function M.init(self)
 	self.state.buffer = wb.buffer
 	self.state.window = wb.window
 
-	api.nvim_win_set_option(self.state.window, "winhighlight", "Normal:RadioactiveButton")
+	-- api.nvim_win_set_option(self.state.window, "winhighlight", "Normal:RadioactiveButton")
 
 	-- attach event listener
 	for desc, value in pairs(self.config.keys) do
@@ -100,8 +108,13 @@ function M.is_dirty(self)
 	return self.state.dirty
 end
 
+function M.format_lines(self)
+	self.state.text = self.state.text
+end
+
 function M.render(self)
 	if self.state.dirty then
+		self:format_lines()
 		ui.set_lines(self.state.buffer, self.state.text)
 		api.nvim_win_set_buf(self.state.window, self.state.buffer)
 		self.state.dirty = false
