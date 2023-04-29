@@ -7,13 +7,15 @@ with **neovim + html? + lua** for terminal apps.
 
 Best part? too many amazing free themes:
 
-<img src="./assets/catppuccin-latte.png"  width="256" height="256">
-<img src="./assets/moonfly-dark.png"  width="256" height="256">
-<img src="./assets/nightfly-dark.png"  width="256" height="256">
-<img src="./assets/rosebones-dark.png"  width="256" height="256">
-<img src="./assets/rosebones-light.png"  width="256" height="256">
-<img src="./assets/tokyonight-dark.png"  width="256" height="256">
-<img src="./assets/tokyonight-light.png"  width="256" height="256">
+<div style="display: flex; height: 1024; flex-wrap: wrap;">
+  <img src="./assets/catppuccin-latte.png">
+  <img src="./assets/moonfly-dark.png">
+  <img src="./assets/nightfly-dark.png">
+  <img src="./assets/rosebones-dark.png">
+  <img src="./assets/rosebones-light.png">
+  <img src="./assets/tokyonight-dark.png">
+  <img src="./assets/tokyonight-light.png">
+<div>
 
 ## Installation
 
