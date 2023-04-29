@@ -37,7 +37,7 @@ function M.create_win(rect)
   end
 
 	local opts = {
-		relative = "win",
+		relative = "editor",
 		col = rect.col,
 		row = rect.row,
 		width = rect.width,
