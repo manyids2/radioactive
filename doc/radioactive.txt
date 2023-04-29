@@ -38,7 +38,7 @@ The main challenges are:
   - async
   - loop to check dirty instead?
 
-The goal is to replace `browser + html + javascript` with `neovim + html? + lua`
+The goal is to emulate `browser + html + javascript` with `neovim + html? + lua`
 for terminal apps.
 
 ==============================================================================

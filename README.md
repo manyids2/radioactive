@@ -2,6 +2,10 @@
 
 Reactive components using neovim and treesitter.
 
+The goal is to emulate `browser + html + javascript`
+with `neovim + html? + lua` for terminal apps.
+
+
 Example apps:
 
 ![counter](./counter.png)
