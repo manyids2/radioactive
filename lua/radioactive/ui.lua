@@ -45,13 +45,41 @@ function M.set_buf_options(buffer, opts)
 	end
 end
 
-function M.get_component(id)
+function M.get_components(ids)
+	local components = {}
 	for _, c in pairs(M.state.components) do
-		if c.id == id then
-      return c
+		if vim.tbl_contains(ids, c.id) then
+			components[c.id] = c
 		end
 	end
-  return nil
+	return components
+end
+
+function M.init_children(self)
+	for _, c in pairs(self.children) do
+		c:init()
+	end
+end
+
+function M.is_dirty_children(self)
+	local dirty = false
+	for _, c in pairs(self.children) do
+		dirty = dirty or c:is_dirty()
+	end
+	return dirty
+end
+
+function M.render_children(self)
+	for _, c in pairs(self.children) do
+		c:render()
+	end
+end
+
+function M.re_render(components)
+	for _, c in pairs(components) do
+		c.state.dirty = true
+		c:render()
+	end
 end
 
 function M.render()

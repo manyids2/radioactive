@@ -2,28 +2,16 @@ local ui = require("radioactive.ui")
 local div = require("radioactive.widgets.div")
 local button = require("radioactive.widgets.button")
 
-local function increment()
-	return function()
-		local c = ui.get_component("count_label")
-		if c == nil then
-			return
-		end
-		c.state.text[1] = tostring(tonumber(c.state.text[1]) + 1)
-		c.state.dirty = true
-		c:render()
-	end
+local function increment(components)
+	local text = components.count_label.state.text
+	text = { tostring(tonumber(text[1]) + 1) }
+	components.count_label.state.text = text
 end
 
-local function decrement()
-	return function()
-		local c = ui.get_component("count_label")
-		if c == nil then
-			return
-		end
-		c.state.text[1] = tostring(tonumber(c.state.text[1]) - 1)
-		c.state.dirty = true
-		c:render()
-	end
+local function decrement(components)
+	local text = components.count_label.state.text
+	text = { tostring(tonumber(text[1]) - 1) }
+	components.count_label.state.text = text
 end
 
 -- Need to setup children before init
@@ -35,44 +23,30 @@ local count_label = div.setup({
 
 local inc_button = button.setup({
 	id = "inc_button",
-	text = {"+ -> <up>", "- -> <down>"},
+	text = { "", "    +       ", "", "    -       " },
 	keys = {
 		increment = {
 			"n",
 			"<up>",
 			increment,
-			{ desc = "increment" },
+			{ "count_label" },
 		},
 		decrement = {
 			"n",
 			"<down>",
 			decrement,
-			{ desc = "decrement" },
+			{ "count_label" },
 		},
 	},
-	rect = { col = 10, row = 15, width = 20, height = 5 },
+	rect = { col = 10, row = 15, width = 13, height = 5 },
 })
 
-local M = {
+return {
 	id = "counter",
 	class = "counter",
 	children = { count_label, inc_button },
 	state = { count = 0 },
-	setup = function()
-		count_label:init()
-		inc_button:init()
-	end,
-	init = function()
-		count_label:init()
-		inc_button:init()
-	end,
-	is_dirty = function()
-		return (count_label:is_dirty() and inc_button:is_dirty())
-	end,
-	render = function()
-		count_label:render()
-		inc_button:render()
-	end,
+	init = ui.init_children,
+	is_dirty = ui.is_dirty_children,
+	render = ui.render_children,
 }
-
-return M

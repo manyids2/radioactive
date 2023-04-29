@@ -5,20 +5,15 @@ local layout = require("radioactive.layout")
 
 local M = {}
 
-function M.on_click(id)
-	return function()
-		for _, c in pairs(ui.state.components) do
-			if c.id == id then
-        local text = c.state.text
-				if text[1] == "off" then
-					text[1] = "on"
-				else
-					text[1] = "off"
-				end
-				c.state.dirty = true
-				c:render()
-			end
-		end
+function M.on_click(components)
+	if components.button == nil then
+		return
+	end
+	local text = components.button.text[1]
+	if text == "off" then
+		text = "on"
+	else
+		text = "off"
 	end
 end
 
@@ -28,10 +23,10 @@ local default_config = {
 	text = { "off" },
 	keys = {
 		click = {
-			"n",
-			"<enter>",
-			M.on_click,
-			{ desc = "click" },
+			"n", -- mode
+			"<enter>", -- lhs
+			M.on_click, -- will be wrapped to rhs
+			{ "button" }, -- affects
 		},
 	},
 	rect = { col = 10, row = 5, width = 20, height = 5 },
@@ -84,7 +79,13 @@ function M.init(self)
 	for desc, value in pairs(self.config.keys) do
 		local mode = value[1]
 		local lhs = value[2]
-		local callback = value[3](self.config.id)
+		local action = value[3]
+		local ids = value[4]
+		local callback = function()
+			local components = ui.get_components(ids)
+			action(components)
+			ui.re_render(components)
+		end
 		keys.buf_map(self.state.buffer, mode, lhs, callback, desc)
 	end
 
